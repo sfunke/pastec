@@ -108,13 +108,14 @@ int main(int argc, char** argv)
         ++i;
     }
 
+    //    Discussion about building forward-Index: https://github.com/magwyz/pastec/pull/23
     Index *index = new ORBIndex(indexPath, buildForwardIndex);
     ORBWordIndex *wordIndex = new ORBWordIndex(visualWordPath);
-    FeatureExtractor *ife = new ORBFeatureExtractor((ORBIndex *)index, wordIndex);
-    Searcher *is = new ORBSearcher((ORBIndex *)index, wordIndex);
+    FeatureExtractor *featureExtractor = new ORBFeatureExtractor((ORBIndex *)index, wordIndex);
+    Searcher *searcher = new ORBSearcher((ORBIndex *)index, wordIndex);
     ImageDownloader *imgDownloader = new ImageDownloader();
 
-    RequestHandler *rh = new RequestHandler(ife, is, index, imgDownloader, authKey);
+    RequestHandler *rh = new RequestHandler(featureExtractor, searcher, index, imgDownloader, authKey);
     s = new HTTPServer(rh, i_port, https);
 
     signal(SIGHUP, intHandler);
@@ -126,8 +127,8 @@ int main(int argc, char** argv)
 
     delete s;
     delete imgDownloader;
-    delete (ORBSearcher *)is;
-    delete (ORBFeatureExtractor *)ife;
+    delete (ORBSearcher *)searcher;
+    delete (ORBFeatureExtractor *)featureExtractor;
     delete (ORBIndex *)index;
 
     return 0;
