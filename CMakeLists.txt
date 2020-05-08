@@ -43,6 +43,15 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
+# this block is for quickly making it work locally
+# Surely can be done better, but I don't know atm.
+# BEGIN OF BLOCK - Remove when deploying
+set(OpenCV_DIR "/usr/local/opt/opencv/lib/cmake/opencv4")
+include_directories(/usr/local/Cellar/libmicrohttpd/0.9.63/include/)
+# END OF BLOCK
+
+
+
 find_package(Threads REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(microhttpd REQUIRED)
